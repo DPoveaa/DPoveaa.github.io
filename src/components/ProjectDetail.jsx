@@ -61,11 +61,31 @@ const ProjectDetail = ({ project, onClose }) => {
         <div className="relative aspect-video">
           {images && images.length > 0 ? (
             <>
-              <img
-                src={images[currentImageIndex]}
-                alt={`Imagem do projeto ${title} - ${currentImageIndex + 1}`}
-                className="w-full h-full object-contain bg-black"
-              />
+              {(() => {
+                const current = images[currentImageIndex];
+                // Verifica se é um link do YouTube
+                const youtubeMatch = current.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]{11})/);
+                if (youtubeMatch) {
+                  const videoId = youtubeMatch[1];
+                  return (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${videoId}`}
+                      title={`Vídeo do projeto ${title} - ${currentImageIndex + 1}`}
+                      className="w-full h-full bg-black"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  );
+                } else {
+                  return (
+                    <img
+                      src={current}
+                      alt={`Imagem do projeto ${title} - ${currentImageIndex + 1}`}
+                      className="w-full h-full object-contain bg-black"
+                    />
+                  );
+                }
+              })()}
               
               {images.length > 1 && (
                 <>
