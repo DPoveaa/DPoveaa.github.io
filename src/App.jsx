@@ -54,7 +54,7 @@ function App() {
           </>
         )}
         
-        <Footer />
+        <Footer onLogoClick={closeProject} />
       </div>
     </ThemeProvider>
   );

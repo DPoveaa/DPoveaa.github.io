@@ -1,16 +1,27 @@
 import React from 'react';
 import { useTheme } from '../hooks/useTheme';
 
-const Footer = () => {
+const Footer = ({ onLogoClick }) => {
   const { theme } = useTheme();
   const currentYear = new Date().getFullYear();
+  
+  const scrollToTop = (e) => {
+    e.preventDefault();
+    if (onLogoClick) {
+      onLogoClick();
+    }
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
   
   return (
     <footer className={`py-8 ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
-            <a href="#inicio" className="text-xl font-bold tracking-tighter">
+            <a href="#inicio" onClick={scrollToTop} className="text-xl font-bold tracking-tighter">
               <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
                 Povea
               </span>
