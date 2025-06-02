@@ -31,27 +31,27 @@ const ProjectCard = ({ project, onClick }) => {
         />
       </div>
       
-      <div className="p-6">
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="text-xl font-semibold">{title}</h3>
+      <div className="p-4 sm:p-6">
+        <div className="flex justify-between items-start mb-2 sm:mb-3">
+          <h3 className="text-lg sm:text-xl font-semibold line-clamp-2">{title}</h3>
           <div 
             className={`p-2 rounded-full transition-transform group-hover:rotate-45 ${
               theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100'
             }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 sm:w-5 sm:h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
             </svg>
           </div>
         </div>
         
-        <p className={`mb-4 text-sm ${
+        <p className={`mb-3 sm:mb-4 text-sm line-clamp-3 ${
           theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
         }`}>
           {shortDescription}
         </p>
         
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2">
           {displayTechnologies.map((tech, index) => (
             <span 
               key={index} 

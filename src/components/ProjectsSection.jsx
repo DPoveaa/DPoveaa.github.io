@@ -47,15 +47,7 @@ const ProjectsSection = ({ onProjectClick }) => {
           ))}
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto" style={{
-          maxWidth: '1200px',
-          width: '100%',
-          display: 'grid',
-          gridTemplateColumns: `repeat(${Math.min(filteredProjects.length, 3)}, minmax(0, 1fr))`,
-          justifyContent: 'center',
-          gap: '2rem',
-          padding: '0 1rem'
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto px-4">
           {filteredProjects.length > 0 ? (
             filteredProjects.map(project => (
               <ProjectCard 

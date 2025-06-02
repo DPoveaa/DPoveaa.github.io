@@ -3,6 +3,14 @@ import { useTheme } from '../hooks/useTheme';
 
 const HeroSection = () => {
   const { theme } = useTheme();
+
+  const handleClick = (e, targetId) => {
+    e.preventDefault();
+    const element = document.getElementById(targetId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   
   return (
     <section id="inicio" className="pt-24 pb-20 md:pt-32 md:pb-24">
@@ -26,12 +34,14 @@ const HeroSection = () => {
               <div className="flex gap-4">
                 <a 
                   href="#projetos"
+                  onClick={(e) => handleClick(e, 'projetos')}
                   className="px-6 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-medium transition-all"
                 >
                   Ver Projetos
                 </a>
                 <a 
                   href="#contato"
+                  onClick={(e) => handleClick(e, 'contato')}
                   className={`px-6 py-3 rounded-lg font-medium transition-all ${
                     theme === 'dark' 
                       ? 'bg-gray-800 hover:bg-gray-700 text-white' 

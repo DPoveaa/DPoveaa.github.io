@@ -118,20 +118,20 @@ const ContactSection = () => {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center gap-4 p-4 rounded-lg transition-colors ${
+                    className={`flex items-center gap-3 p-3 sm:p-4 rounded-lg transition-colors ${
                       theme === 'dark' 
                         ? 'hover:bg-gray-800'
                         : 'hover:bg-gray-50'
                     }`}
                   >
-                    <div className={`p-3 rounded-full ${item.color} text-white`}>
+                    <div className={`p-2 sm:p-3 rounded-full ${item.color} text-white flex-shrink-0`}>
                       {item.icon}
                     </div>
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
                         {item.type}
                       </p>
-                      <p className="font-medium">{item.value}</p>
+                      <p className="font-medium truncate">{item.value}</p>
                     </div>
                   </a>
                 ))}
@@ -194,7 +194,8 @@ const ContactSection = () => {
                     onChange={handleChange}
                     required
                     rows="4"
-                    className={`w-full px-4 py-2 rounded-lg border ${
+                    maxLength="500"
+                    className={`w-full px-4 py-2 rounded-lg border resize-none ${
                       theme === 'dark'
                         ? 'bg-gray-800 border-gray-700 text-white focus:border-blue-500'
                         : 'bg-gray-50 border-gray-300 text-gray-900 focus:border-blue-500'

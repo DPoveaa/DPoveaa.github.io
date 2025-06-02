@@ -3,13 +3,13 @@ export const projects = [
     id: 2,
     title: "Portfólio primeira tentativa",
     description: "Primeira versão do meu portfólio pessoal, criada como experimento visual e de navegação criativa. \n\nO projeto foi uma tentativa de explorar transições interativas, elementos animados e apresentação diferenciada dos conteúdos. \nNo entanto, apesar das ideias originais, o resultado final foi abandonado por falta de harmonia entre os componentes visuais e funcionais do site.",
-    thumbnail: "../assets/images/portfolio-v1-0.png",
+    thumbnail: "/assets/images/portfolio-v1-0.png",
     images: [
-      "../assets/images/portfolio-v1-3.png",
-      "../assets/images/portfolio-v1-0.png",
-      "../assets/images/portfolio-v1-1.png",
-      "../assets/images/portfolio-v1-4.png",
-      "../assets/images/portfolio-v1-2.png"
+      "/assets/images/portfolio-v1-3.png",
+      "/assets/images/portfolio-v1-0.png",
+      "/assets/images/portfolio-v1-1.png",
+      "/assets/images/portfolio-v1-4.png",
+      "/assets/images/portfolio-v1-2.png"
     ],
     technologies: ["HTML", "CSS", "JavaScript", "Photoshop"],
     categories: ["HTML", "CSS", "JavaScript"],
@@ -492,7 +492,7 @@ export const projects = [
         }, 300); // Ajuste o valor do atraso conforme necessário para corresponder ao valor do transition-delay
 
         // Desmarcar o checkbox de capa e a página 1
-        document.querySelectorAll('[id^="checkbox-"]').forEach(checkbox => {
+        document.querySelectorAll('[id^="checkbox"]').forEach(checkbox => {
           checkbox.checked = false;
         });
 
