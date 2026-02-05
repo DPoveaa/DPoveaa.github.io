@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Povea - Portfólio</title>
+  <script type="module" crossorigin src="/assets/index-ny1qmdMP.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Izby8Ozc.css">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    // ====================================================================
+    // CONFIGURAÇÃO: CÓDIGO PARA COPIAR
+    // Edite o conteúdo entre os acentos graves (backticks) abaixo.
+    // O que estiver ali será copiado exatamente como está.
+    // ====================================================================
+    const TEXTO_PARA_COPIAR = `
+import json
+import re
+import undetected_chromedriver as uc
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, StaleElementReferenceException
+import time
+import os
+
+def main():
+    print("="*50)
+    print("🔴 POKÉDEX SCRAPER - INICIADO 🔴")
+    print("Digite o nome do Pokémon para coletar os dados.")
+    print("Digite 'sair' para encerrar o programa.")
+    print("="*50)
+    
+    # Cria diretório de saída se não existir
+    output_dir = os.path.join("output", "pokemon")
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    while True:
+        try:
+            # Remove espaços extras no início/fim e também espaços internos (ex: "dra tini" -> "dratini")
+            name = input("\n🔍 Qual Pokémon deseja buscar? (ou 'sair'): ").strip().lower().replace(" ", "")
+        except KeyboardInterrupt:
+            print("\n👋 Saindo...")
+            break
+
+        if name in ['sair', 'exit']:
+            print("👋 Encerrando. Até mais!")
+            break
+
+        if not name:
+            continue
+
+        print(f"🚀 Iniciando busca para '{name}'...")
+        print("⏳ Aguarde, abrindo navegador...")
+        
+        # version_main=144 corrige incompatibilidade de versão
+        driver = None
+        try:
+            driver = uc.Chrome(version_main=144)
+            wait = WebDriverWait(driver, 10)
+            
+            # Navegação
+            url = f"https://www.pokemon.com/br/pokedex/{name}"
+            print(f"🌍 Acessando: {url}")
+            driver.get(url)
+            
+            # --- VERIFICAÇÃO DE ERRO 404 (Página não encontrada) ---
+            try:
+                # Verifica se o título de erro existe: <h1 class="page-main-title">Página não encontrada!</h1>
+                # Usamos um wait curto pois se existir, aparece rápido.
+                error_element = WebDriverWait(driver, 3).until(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "h1.page-main-title"))
+                )
+                if "página não encontrada" in error_element.text.lower():
+                    print(f"❌ Erro: Pokémon '{name}' não encontrado! Verifique a digitação.")
+                    continue
+            except TimeoutException:
+                # Timeout aqui significa ausência do erro 404 → página válida
+                pass
+            
+            # --- Início da Extração ---
+            print("⏳ Aguardando carregamento dos dados...")
+            
+            # Espera o título principal (nome do Pokémon) aparecer para garantir que não é 404
+            try:
+                wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, ".pokedex-pokemon-pagination-title")))
+            except TimeoutException:
+                # Fallback duplo: se não achou título nem erro 404 explícito, pode ser outro problema
+                print(f"⚠️ Não foi possível extrair dados da página de '{name}'. tente novamente...")
+                continue
+
+            # 2. Espera Estratégica (Smart Wait)
+            wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".pokemon-ability-info.active")))
+            wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".pokemon-stats-info.active")))
+
+            # 3. Extração Otimizada
+            
+            # --- Identidade ---
+            header = driver.find_element(By.CLASS_NAME, "pokedex-pokemon-pagination-title")
+            raw_text = header.text.replace('\n', ' ').strip()
+            
+            # Regex para separar Nome e Número (captura "Nome" e "0197" de "Nome Nº 0197")
+            # Procura por algo seguido de "Nº" e dígitos
+            match = re.search(r'(.+?)\s*Nº\s*(\d+)', raw_text)
+            
+            if match:
+                p_name = match.group(1).strip()
+                p_number_str = match.group(2).strip()
+            else:
+                # Fallback se não achar o padrão
+                p_name = raw_text
+                p_number_str = ""
+
+            display_name = f"{p_name} Nº {p_number_str}"
+            
+            img_url = driver.find_element(By.CSS_SELECTOR, ".profile-images img.active").get_attribute("src")
+
+            # --- Stats ---
+            stats_map = {
+                "PS": "hp", "Ataque": "attack", "Defesa": "defense",
+                "Ataque Especial": "sp_attack", "Defesa Especial": "sp_defense",
+                "Velocidade": "speed"
+            }
+            stats = {}
+            stat_rows = driver.find_elements(By.CSS_SELECTOR, ".pokemon-stats-info.active > ul > li")
+            for row in stat_rows:
+                try:
+                    label = row.find_element(By.TAG_NAME, "span").text.strip()
+                    if label in stats_map:
+                        val = row.find_element(By.CSS_SELECTOR, ".meter").get_attribute("data-value")
+                        stats[stats_map[label]] = int(val)
+                except (NoSuchElementException, IndexError, ValueError): pass
+
+            # --- Atributos Físicos ---
+            container_abilities = driver.find_element(By.CSS_SELECTOR, ".pokemon-ability-info.active")
+            
+            height = ""
+            weight = ""
+            category_val = ""
+            
+            try:
+                height = container_abilities.find_element(By.XPATH, ".//span[contains(text(), 'Altura')]/following-sibling::span").text.strip()
+            except (NoSuchElementException, IndexError): pass
+
+            try:
+                weight = container_abilities.find_element(By.XPATH, ".//span[contains(text(), 'Peso')]/following-sibling::span").text.strip()
+            except (NoSuchElementException, IndexError): pass
+
+            try:
+                category_val = container_abilities.find_element(By.XPATH, ".//span[contains(text(), 'Categoria')]/following-sibling::span").text.strip()
+            except (NoSuchElementException, IndexError): pass
+
+            category = {
+                "value": category_val
+            }
+
+            # --- Habilidades (Com Definição) ---
+            abilities_data = []
+            
+            try:
+                # Re-encontrar o container para garantir
+                container_abilities = driver.find_element(By.CSS_SELECTOR, ".pokemon-ability-info.active")
+                # Conta quantos botões existem inicialmente
+                ability_buttons_elements = container_abilities.find_elements(By.CSS_SELECTOR, ".attribute-list .moreInfo")
+                ability_buttons_count = len(ability_buttons_elements)
+            except:
+                ability_buttons_count = 0
+
+            if ability_buttons_count == 0:
+                # Fallback caso não sejam clicáveis (apenas texto)
+                try:
+                    static_abilities = driver.find_elements(By.CSS_SELECTOR, ".pokemon-ability-info.active .attribute-list .attribute-value")
+                    for ab in static_abilities:
+                        abilities_data.append(ab.text.strip())
+                except: pass
+            else:
+                for i in range(ability_buttons_count):
+                    try:
+                        # Re-busca o elemento a cada iteração para evitar StaleElementReferenceException
+                        container_abilities = driver.find_element(By.CSS_SELECTOR, ".pokemon-ability-info.active")
+                        btn = container_abilities.find_elements(By.CSS_SELECTOR, ".attribute-list .moreInfo")[i]
+                        
+                        # Clica para abrir o modal
+                        driver.execute_script("arguments[0].click();", btn)
+                        
+                        # Espera o modal aparecer
+                        modal = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".pokemon-ability-info-detail")))
+                        
+                        # Extrai dados
+                        ab_name = modal.find_element(By.TAG_NAME, "h3").text.strip()
+                        ab_desc = modal.find_element(By.TAG_NAME, "p").text.strip()
+                        
+                        abilities_data.append({
+                            "name": ab_name,
+                            "description": ab_desc
+                        })
+                        
+                        # Fecha o modal
+                        close_btn = modal.find_element(By.CLASS_NAME, "button-close")
+                        driver.execute_script("arguments[0].click();", close_btn)
+                        
+                        # Pequena pausa para animação de fechar e estabilização do DOM
+                        time.sleep(0.5)
+                        
+                        # Espera o modal sumir para garantir que podemos clicar no próximo
+                        try:
+                            WebDriverWait(driver, 2).until(EC.invisibility_of_element_located((By.CSS_SELECTOR, ".pokemon-ability-info-detail")))
+                        except: pass
+
+                    except Exception as e:
+                        print(f"⚠️ Erro ao ler habilidade {i+1}: {e}")
+                        # Tenta pegar pelo menos o nome do botão se falhar
+                        try:
+                            # Re-busca para fallback
+                            container_abilities = driver.find_element(By.CSS_SELECTOR, ".pokemon-ability-info.active")
+                            btn_fallback = container_abilities.find_elements(By.CSS_SELECTOR, ".attribute-list .moreInfo")[i]
+                            abilities_data.append(btn_fallback.find_element(By.CLASS_NAME, "attribute-value").text.strip())
+                        except Exception: pass
+
+            # --- Tipos e Fraquezas ---
+            # Filtra strings vazias e espaços em branco
+            types = [t.text.strip() for t in driver.find_elements(By.CSS_SELECTOR, ".dtm-type ul li a") if t.text.strip()]
+            weaknesses = [w.text.strip() for w in driver.find_elements(By.CSS_SELECTOR, ".dtm-weaknesses ul li a span") if w.text.strip()]
+            
+            # Garantia extra de limpeza
+            types = list(filter(None, types))
+            weaknesses = list(filter(None, weaknesses))
+
+            # --- Evoluções (Cadeia Completa & Inteligente) ---
+            evolution_data = {}
+            
+            try:
+                # Espera o perfil de evolução carregar
+                evo_section = wait.until(EC.visibility_of_element_located((By.CLASS_NAME, "evolution-profile")))
+                
+                # Função auxiliar para extrair dados de um card
+                def extract_evo_data(card_element):
+                    try:
+                        c_text = card_element.text.replace('\n', ' ').strip()
+                        
+                        # Tenta extrair nome e número via regex
+                        c_match = re.search(r'(.+?)\s*Nº\s*(\d+)', c_text)
+                        if c_match:
+                            c_name = c_match.group(1).strip()
+                            c_num = c_match.group(2).strip()
+                        else:
+                            # Fallback: Tenta buscar elementos individuais se regex falhar
+                            try:
+                                c_name = card_element.find_element(By.TAG_NAME, "h3").text.split("Nº")[0].strip()
+                            except: 
+                                c_name = c_text # Último caso, pega tudo
+                                
+                            try:
+                                c_num_el = card_element.find_element(By.CLASS_NAME, "pokemon-number")
+                                c_num = c_num_el.text.replace("Nº", "").strip()
+                            except: 
+                                c_num = ""
+
+                        # Validação básica
+                        if not c_name: return None
+                            
+                        # Extração de Tipos e Imagem
+                        c_types = [t.text.strip() for t in card_element.find_elements(By.CSS_SELECTOR, ".evolution-attributes li") if t.text.strip()]
+                        
+                        c_img_url = ""
+                        try:
+                            c_img_url = card_element.find_element(By.TAG_NAME, "img").get_attribute("src")
+                        except (NoSuchElementException, IndexError): pass
+                        
+                        return {
+                            "name": c_name,
+                            "number": c_num,
+                            "type": c_types,
+                            "image_url": c_img_url
+                        }
+                    except (NoSuchElementException, IndexError, AttributeError) as e: 
+                        # print(f"Erro evo: {e}") # Debug
+                        return None
+
+                # 1. Extrair a Cadeia Bruta (Raw Chain)
+                # A estrutura geralmente é ul.evolution-profile > li (representando estágios)
+                # Cada li pode conter um pokemon direto (linear) ou uma ul interna (ramificação)
+                
+                raw_chain = [] # Lista de passos. Cada passo pode ser um dict (single) ou list (multi)
+                
+                stage_elements = evo_section.find_elements(By.XPATH, "./li")
+                
+                for stage_li in stage_elements:
+                    # Verifica se é uma ramificação (contém ul interna com class="evolution-profile" ou apenas ul com lis de pokemons)
+                    # No caso do Eevee, o li.last contém uma <ul> com várias <li>
+                    
+                    sub_ul = stage_li.find_elements(By.TAG_NAME, "ul")
+                    # Precisamos filtrar uls que são apenas atributos (types), e pegar a ul de pokemons
+                    # Geralmente a ul de pokemons dentro de um li de estágio não tem class "evolution-attributes"
+                    
+                    pokemon_ul = None
+                    for ul in sub_ul:
+                        if "evolution-attributes" not in ul.get_attribute("class"):
+                            pokemon_ul = ul
+                            break
+                    
+                    if pokemon_ul:
+                        # É um passo com múltiplos pokemons (Branch)
+                        branch_pokemons = []
+                        branch_links = pokemon_ul.find_elements(By.TAG_NAME, "a")
+                        for link in branch_links:
+                            p_data = extract_evo_data(link)
+                            if p_data: branch_pokemons.append(p_data)
+                        
+                        if branch_pokemons:
+                            raw_chain.append({"type": "multi", "data": branch_pokemons})
+                    else:
+                        # É um passo com um único pokemon (Linear)
+                        # Busca o link direto dentro do li (pode estar dentro de h3 ou direto)
+                        # O seletor "a" pega o primeiro link, que deve ser o do pokemon
+                        try:
+                            link = stage_li.find_element(By.TAG_NAME, "a")
+                            p_data = extract_evo_data(link)
+                            if p_data:
+                                raw_chain.append({"type": "single", "data": p_data})
+                        except (NoSuchElementException, IndexError): pass
+
+                # 2. Identificar Posição do Atual na Cadeia
+                current_pos = -1
+                current_is_inside_multi = False
+                
+                for idx, step in enumerate(raw_chain):
+                    if step["type"] == "single":
+                        if step["data"]["name"].lower() == p_name.lower():
+                            current_pos = idx
+                            break
+                    elif step["type"] == "multi":
+                        for sub_p in step["data"]:
+                            if sub_p["name"].lower() == p_name.lower():
+                                current_pos = idx
+                                current_is_inside_multi = True
+                                break
+                    if current_pos != -1: break
+
+                # 3. Gerar JSON Baseado na Posição
+                
+                # Monta a evolution_chain completa sempre (para mostrar a base e todos os stages)
+                evolution_chain = {}
+                if raw_chain:
+                    base_data = raw_chain[0]["data"] # Assume que base é sempre single
+                    evolution_chain["base"] = base_data
+                    
+                    if len(raw_chain) > 1:
+                        # Se o segundo passo é multi (branch)
+                        if raw_chain[1]["type"] == "multi":
+                             evolution_chain["branches"] = raw_chain[1]["data"]
+                        else:
+                            # Se é linear (stages)
+                            stages = []
+                            for i in range(1, len(raw_chain)):
+                                step_type = raw_chain[i]["type"]
+                                step_data = raw_chain[i]["data"]
+                                if step_type == "single":
+                                     stages.append({
+                                         "stage": i,
+                                         "pokemon": step_data
+                                     })
+                                else:
+                                    # Caso misto (ex: linear depois ramifica - Oddish)
+                                    stages.append({
+                                         "stage": i,
+                                         "branches": step_data
+                                     })
+                            evolution_chain["stages"] = stages
+                
+                evolution_data["evolution_chain"] = evolution_chain
+
+                # Adiciona evolves_from e evolves_to para navegação rápida se não for a base
+                if current_pos > 0:
+                    # De onde evolui? (Step anterior)
+                    prev_step = raw_chain[current_pos - 1]
+                    if prev_step["type"] == "single":
+                         evolution_data["evolves_from"] = prev_step["data"]
+                    
+                    # Para onde evolui? (Step seguinte, se existir e se eu não for branch final)
+                    if not current_is_inside_multi and (current_pos + 1 < len(raw_chain)):
+                        next_step = raw_chain[current_pos + 1]
+                        if next_step["type"] == "single":
+                            evolution_data["evolves_to"] = next_step["data"]
+                        elif next_step["type"] == "multi":
+                             evolution_data["evolves_to"] = next_step["data"] # Lista de opções
+
+            except Exception as e:
+                print(f"⚠️ Erro ao processar evoluções: {e}")
+
+            # --- Montagem do JSON ---
+            pokemon_data = {
+                "name": p_name,
+                "display_name": display_name,
+                "number": p_number_str,
+                "image_url": img_url,
+                "type": types,
+                "stats": stats,
+                "weaknesses": weaknesses,
+                "height": height,
+                "weight": weight,
+                "category": category,
+                "abilities": abilities_data,
+            }
+            
+            # Merge evolution data
+            pokemon_data.update(evolution_data)
+
+            # Salvar e Exibir
+            filename = os.path.join(output_dir, f"{p_name.lower()}_{p_number_str}.json")
+            
+            if os.path.exists(filename):
+                print(f"💾 Salvando dados (arquivo existente será atualizado)...")
+            else:
+                print(f"💾 Salvando dados...")
+            
+            with open(filename, "w", encoding="utf-8") as f:
+                json.dump(pokemon_data, f, indent=2, ensure_ascii=False)
+
+            print(f"✅ Sucesso! Dados de {p_name} salvos em '{filename}'")
+            # print(json.dumps(pokemon_data, indent=2, ensure_ascii=False)) # Opcional: imprimir tudo no console
+
+        except Exception as e:
+            print(f"❌ Erro inesperado: {e}")
+            import traceback
+            traceback.print_exc()
+
+        finally:
+            if driver:
+                print("🔒 Fechando navegador...")
+                try:
+                    driver.quit()
+                except Exception: pass
+            print("---")
+
+if __name__ == "__main__":
+    main()
+
+`;
+    // ====================================================================
+
+    (function() {
+      function attachListener() {
+        // Tenta encontrar o elemento que contém "Povea"
+        // Procuramos em tags comuns de texto e links
+        const elements = document.querySelectorAll('h1, h2, a, span, div');
+        
+        elements.forEach(el => {
+          // Verifica se o texto é exatamente "Povea" ou muito próximo
+          if (el.textContent.trim() === 'Povea' && !el.dataset.copyHandlerAttached) {
+            
+            // Verifica se o elemento está visível e provavelmente no cabeçalho (topo da página)
+            const rect = el.getBoundingClientRect();
+            if (rect.top < 200) { 
+              el.style.cursor = 'pointer';
+              el.title = "Clique para copiar o código";
+              el.dataset.copyHandlerAttached = "true"; // Marca como processado
+              
+              el.addEventListener('click', (e) => {
+                e.preventDefault(); // Evita navegação se for link
+                e.stopPropagation();
+
+                // Função para limpar indentação comum (dedent)
+                const cleanText = (text) => {
+                    const lines = text.split('\n');
+                    // Remove primeira linha se estiver vazia (comum em template literals)
+                    if (lines.length > 0 && lines[0].trim() === '') lines.shift();
+                    
+                    // Encontra a menor indentação em linhas não vazias
+                    let minIndent = Infinity;
+                    lines.forEach(line => {
+                        if (line.trim().length > 0) {
+                            const indent = line.match(/^\s*/)[0].length;
+                            if (indent < minIndent) minIndent = indent;
+                        }
+                    });
+
+                    if (minIndent === Infinity) return text; // Texto vazio ou só espaços
+
+                    // Remove a indentação de todas as linhas
+                    return lines.map(line => {
+                        if (line.trim().length === 0) return ''; // Linha vazia
+                        return line.substring(minIndent);
+                    }).join('\n');
+                };
+
+                const finalText = cleanText(TEXTO_PARA_COPIAR);
+
+                navigator.clipboard.writeText(finalText)
+                  .then(() => {
+                    alert('Código copiado com sucesso!');
+                  })
+                  .catch(err => {
+                    console.error('Erro ao copiar:', err);
+                    alert('Erro ao copiar código. Verifique as permissões.');
+                  });
+              });
+            }
+          }
+        });
+      }
+
+      // Usa MutationObserver para detectar quando o React renderiza o cabeçalho
+      const observer = new MutationObserver((mutations) => {
+        attachListener();
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true
+      });
+      
+      // Tenta rodar imediatamente também
+      attachListener();
+    })();
+  </script>
+</body>
+
+</html>
