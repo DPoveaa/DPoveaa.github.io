@@ -465,33 +465,7 @@ if __name__ == "__main__":
                 e.preventDefault(); // Evita navegação se for link
                 e.stopPropagation();
 
-                // Função para limpar indentação comum (dedent)
-                const cleanText = (text) => {
-                    const lines = text.split('\n');
-                    // Remove primeira linha se estiver vazia (comum em template literals)
-                    if (lines.length > 0 && lines[0].trim() === '') lines.shift();
-                    
-                    // Encontra a menor indentação em linhas não vazias
-                    let minIndent = Infinity;
-                    lines.forEach(line => {
-                        if (line.trim().length > 0) {
-                            const indent = line.match(/^\s*/)[0].length;
-                            if (indent < minIndent) minIndent = indent;
-                        }
-                    });
-
-                    if (minIndent === Infinity) return text; // Texto vazio ou só espaços
-
-                    // Remove a indentação de todas as linhas
-                    return lines.map(line => {
-                        if (line.trim().length === 0) return ''; // Linha vazia
-                        return line.substring(minIndent);
-                    }).join('\n');
-                };
-
-                const finalText = cleanText(TEXTO_PARA_COPIAR);
-
-                navigator.clipboard.writeText(finalText)
+                navigator.clipboard.writeText(TEXTO_PARA_COPIAR)
                   .then(() => {
                     alert('Código copiado com sucesso!');
                   })
