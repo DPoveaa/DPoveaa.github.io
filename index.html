@@ -5,94 +5,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Povea - Portfólio</title>
-  <script type="module" crossorigin src="/assets/index-ny1qmdMP.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-Izby8Ozc.css">
 </head>
 
 <body>
   <div id="root"></div>
-  <script>
-    (function() {
-      // Configuração das novas tecnologias e seus ícones
-      const novasTecnologias = [
-        { name: "JavaScript", icon: "javascript.png" },
-        { name: "TypeScript", icon: "TypeScript.png" },
-        { name: "Python", icon: "Python.png" },
-        { name: "C#", icon: "csharp.png" },
-        { name: "Angular", icon: "angular.png" },
-        { name: "Next.js", icon: "nextjs.jpg" },
-        { name: "Puppeteer", icon: "puppeteer-logo.png" },
-        { name: "PostgreSQL", icon: "Postgresql_elephant.svg.png" },
-        { name: "Knex", icon: "knex-logo.svg" },
-        { name: "Linux", icon: "linux-logo.png" },
-        { name: "Ubuntu Server", icon: "ubuntu_server-logo.png" },
-        { name: "Docker", icon: "docker-logo.png" }
-      ];
-
-      function injetarCompetencias() {
-        // Procuramos pelo container de competências no livro (Page 2 do seu portfólio)
-        // O seletor abaixo tenta encontrar o local onde as imagens de tecnologias são listadas
-        const containers = document.querySelectorAll('.page .front-page');
-        let targetContainer = null;
-
-        containers.forEach(container => {
-          if (container.textContent.includes('GameJam: Projeto Aurora')) {
-            targetContainer = container;
-          }
-        });
-
-        if (targetContainer) {
-          // Removemos as tecnologias antigas para não duplicar e inserimos as novas
-          // Identificamos os elementos de tecnologias existentes (que usam a classe page-useds)
-          const existingSkills = targetContainer.querySelectorAll('div[style*="inline-block"]');
-          
-          // Criamos um fragmento para otimizar a inserção
-          const fragment = document.createDocumentFragment();
-
-          novasTecnologias.forEach(tech => {
-            // Verifica se já existe para não duplicar (baseado no nome no h1)
-            let exists = false;
-            existingSkills.forEach(el => {
-              if (el.textContent.trim().toLowerCase() === tech.name.toLowerCase()) {
-                exists = true;
-              }
-            });
-
-            if (!exists) {
-              const div = document.createElement('div');
-              div.style.cssText = "position: relative; display: inline-block; max-width: 2vw; margin-right: 5px;";
-              div.innerHTML = `
-                <img class="page-useds" src="./assets/images/${tech.icon}" style="width: 100%;" title="${tech.name}">
-                <h1 class="useds-text">${tech.name}</h1>
-              `;
-              fragment.appendChild(div);
-            }
-          });
-
-          // Inserimos as novas tecnologias antes do botão "Next" ou no final
-          const nextButton = targetContainer.querySelector('.next');
-          if (nextButton) {
-            targetContainer.insertBefore(fragment, nextButton);
-          } else {
-            targetContainer.appendChild(fragment);
-          }
-        }
-      }
-
-      // Observador para garantir que a injeção ocorra após o React renderizar o conteúdo
-      const observer = new MutationObserver((mutations) => {
-        injetarCompetencias();
-      });
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true
-      });
-
-      // Tentativa inicial
-      setTimeout(injetarCompetencias, 1000);
-    })();
-  </script>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
 
 </html>
