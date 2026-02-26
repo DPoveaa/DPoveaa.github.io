@@ -60,7 +60,7 @@ const Header = ({ onLogoClick, onNavClick }) => {
     >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <a href="#inicio" onClick={scrollToTop} className="text-2xl font-bold tracking-tighter">
-          <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-500 via-purple-500 via-blue-400 via-purple-600 to-blue-500 bg-clip-text text-transparent animate-gradient">
             Povea
           </span>
         </a>

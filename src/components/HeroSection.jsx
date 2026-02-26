@@ -19,16 +19,11 @@ const HeroSection = () => {
           <div className="w-full md:w-1/2 order-2 md:order-1">
             <div className="max-w-lg">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                Olá, eu sou <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Daniel Povea</span>
+                Olá! Eu sou <span className="bg-gradient-to-r from-blue-500 via-purple-500 via-blue-400 via-purple-600 to-blue-500 bg-clip-text text-transparent whitespace-nowrap animate-gradient">Daniel Povea</span>
               </h1>
               
-              <h2 className="text-xl md:text-2xl font-medium mb-6">
-                <span className={theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}>Desenvolvedor FullStack</span> com experiência em React, JavaScript e TypeScript
-              </h2>
-              
               <p className={`text-lg mb-8 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
-                Especialista em criar soluções web inovadoras e responsivas, 
-                com foco em experiência do usuário e arquitetura de software de alta qualidade.
+                Melhoria de processos e desenvolvimento de soluções
               </p>
               
               <div className="flex gap-4">

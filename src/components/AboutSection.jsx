@@ -25,7 +25,7 @@ const AboutSection = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 via-purple-500 via-blue-400 via-purple-600 to-blue-500 bg-clip-text text-transparent animate-gradient">
               Sobre Mim
             </span>
           </h2>
@@ -38,17 +38,13 @@ const AboutSection = () => {
             <p className={`text-lg mb-4 ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
             }`}>
-              Sou um desenvolvedor FullStack apaixonado por criar soluções tecnológicas eficientes e elegantes. 
-              Minha formação técnica, combinada com minha experiência em diversos projetos, me permite 
-              abordar problemas complexos e desenvolver aplicações completas do front-end ao back-end.
+                Desenvolvedor com trajetória focada em automação, bots e web scraping desde 2020. Atuo como freelancer desde 2024, onde gerencio o ciclo completo de projetos — desde a concepção e desenvolvimento até o deploy e manutenção.
             </p>
-            
-            <p className={`text-lg ${
+
+               <p className={`text-lg mb-4 ${
               theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
             }`}>
-              Estou sempre em busca de novos desafios e oportunidades para expandir minhas habilidades e 
-              conhecimentos no mundo da programação. Meu objetivo é desenvolver software que não apenas 
-              funcione corretamente, mas também ofereça uma experiência excepcional aos usuários.
+                Tenho domínio técnico em Python, C#, JavaScript e TypeScript, além de sólida experiência em containerização com Docker. No lado da infraestrutura, transito entre ambientes Windows e Linux (Ubuntu Server), com expertise em gerenciamento de servidores via SSH, deploy de aplicações e monitoramento de processos com PM2.
             </p>
           </div>
           

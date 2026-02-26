@@ -22,7 +22,7 @@ const Footer = ({ onLogoClick }) => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <a href="#inicio" onClick={scrollToTop} className="text-xl font-bold tracking-tighter">
-              <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-500 via-purple-500 via-blue-400 via-purple-600 to-blue-500 bg-clip-text text-transparent animate-gradient">
                 Povea
               </span>
             </a>

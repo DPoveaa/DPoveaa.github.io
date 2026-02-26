@@ -136,7 +136,7 @@ const ProjectDetail = ({ project, onClose }) => {
 
           {/* Content Section */}
           <div className="p-6 md:p-10">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent inline-block">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-500 via-purple-500 via-blue-400 via-purple-600 to-blue-500 bg-clip-text text-transparent inline-block animate-gradient">
               {title}
             </h2>
             
