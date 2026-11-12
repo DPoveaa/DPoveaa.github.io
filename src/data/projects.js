@@ -31,21 +31,19 @@ export const projects = [
     title: "Kapsu - E-commerce de Suplementos & Cuidados",
     badge: "Em Produção",
     statusType: "live",
-    description: "Plataforma e-commerce completa e moderna desenvolvida para a Kapsu, voltada à comercialização de suplementos alimentares, vitaminas, skincare, cosméticos e cuidados pessoais.\n\nConstruída com React 18 e TypeScript sobre Vite para velocidade máxima, estilizada com Tailwind CSS e ícones Lucide. Possui catálogo dinâmico de produtos, carrinho integrado, layout responsivo moderno com suporte a tema claro/escuro e arquitetura de componentes escalável.",
+    description: "Plataforma de e-commerce com catálogo, checkout, gestão de pedidos e portal de fornecedores. Fui o principal responsável pelo desenvolvimento da interface e da API.\n\nA Kaia usa o Gemini para consultar pedidos e executar ações no carrinho. O projeto inclui testes de contrato e de fluxos de conversa.",
     thumbnail: "/assets/images/kapsu-logo.png",
     images: [
       "/assets/images/kapsu-logo.png"
     ],
-    technologies: ["React 18", "TypeScript", "Vite", "Tailwind CSS", "React Router", "Lucide Icons"],
+    technologies: ["TypeScript", "React", "Node.js", "Express", "PostgreSQL", "Gemini API", "Knex", "Vite", "Tailwind CSS", "GitHub Actions"],
     categories: ["E-commerce", "Fullstack & Web", "TypeScript"],
     features: [
-      "Plataforma e-commerce completa em produção",
-      "Catálogo dinâmico de suplementos, vitaminas e cuidados pessoais",
-      "Integração de busca, filtros e carrinho de compras",
-      "Interface ultra-rápida construída com React 18 + Vite",
-      "Design moderno responsivo com Tailwind CSS",
-      "Suporte a alternância de temas (Dark / Light mode)",
-      "Tipagem estática robusta com TypeScript"
+      "Catálogo, filtros e carrinho de compras",
+      "Checkout e integração de pagamentos",
+      "Painel de administração e portal de fornecedores",
+      "Assistente de IA integrado às operações da loja",
+      "Testes de contrato e de fluxos de conversa"
     ],
     link: "https://kapsu.com.br/",
     repository: "https://github.com/DPoveaa/Kapsu"
@@ -124,22 +122,20 @@ export const projects = [
   {
     id: 6,
     title: "Central de Descontos - Bot de Ofertas & Afiliados",
-    badge: "Bot Ativo",
+    badge: "Automação",
     statusType: "live",
-    description: "Central de Descontos é um sistema de monitoramento inteligente e divulgação de ofertas reais via Telegram.\n\nUtiliza APIs de grandes marketplaces (Mercado Livre, Amazon, Shopee e Kabum) e web scraping para detectar reduções de preços e cupons exclusivos. O bot gera links de afiliados de forma 100% automatizada, formatando cards completos com preço anterior, desconto percentual, parcelamento e avaliação média.",
+    description: "Automação que coleta e normaliza ofertas de e-commerce e publica os resultados no Telegram e no WhatsApp. Usa Python e Selenium na coleta e Node.js na distribuição.",
     thumbnail: "/assets/images/Cdd.png",
     images: [
       "/assets/images/Cdd.png"
     ],
-    technologies: ["Python", "JavaScript", "Telegram API", "Mercado Livre API", "Shopee API", "Web Scraping"],
+    technologies: ["Python", "Selenium", "Node.js", "JavaScript", "Telegram", "WhatsApp"],
     categories: ["Bots & Automação", "Python"],
     features: [
-      "Canal com milhares de membros ativo no Telegram (@centraldedescontos)",
-      "Coleta contínua de promoções e produtos com quedas drásticas de valor",
-      "Conversão automática de URLs para links parametrizados de afiliados",
-      "Mensagens ricas com imagem, cálculo de parcelas e selos de desconto",
-      "Integração com APIs oficiais de e-commerce e scrapers resilientes",
-      "Geração de receita passiva sustentável"
+      "Coleta de preços e descontos",
+      "Normalização dos dados para publicação",
+      "Geração de links de afiliado",
+      "Distribuição automatizada de ofertas"
     ],
     link: "https://t.me/centraldedescontos",
     repository: "https://github.com/DPoveaa/MercadoLivre-Afiliados"
@@ -196,21 +192,19 @@ export const projects = [
   {
     id: 9,
     title: "ZapTaria - Gerenciador de Tarefas com IA no WhatsApp",
-    badge: "IA & Automação",
+    badge: "Protótipo em pull request",
     statusType: "repo",
-    description: "Gerenciador de tarefas e produtividade assistido por Inteligência Artificial integrado diretamente ao mensageiro WhatsApp.\n\nPermite criar lembretes, registrar afazeres, organizar compromissos e solicitar resumos de rotina usando linguagem natural em conversas do dia a dia, eliminando a fricção de abrir aplicativos complexos de gerenciamento.",
+    description: "Protótipo de um assistente para organizar tarefas por mensagens no WhatsApp. A proposta de implementação está documentada em um pull request no GitHub.",
     thumbnail: "/assets/images/zaptaria-banner.jpg",
     images: [
       "/assets/images/zaptaria-banner.jpg"
     ],
-    technologies: ["Node.js", "WhatsApp Web API", "Inteligência Artificial", "Processamento de Linguagem Natural"],
+    technologies: ["TypeScript", "React", "Node.js", "Express", "Prisma", "PostgreSQL", "Gemini API", "Socket.IO"],
     categories: ["Bots & Automação", "Fullstack & Web"],
     features: [
-      "Interação fluida com assistente inteligente no WhatsApp",
-      "Criação e agendamento de lembretes e tarefas via texto comum",
-      "Compreensão de intenções e prazos em linguagem natural",
-      "Notificações pontuais de compromissos pendentes",
-      "Acesso rápido à lista de tarefas sem sair do app de mensagens"
+      "Proposta de captura e organização de tarefas por conversa",
+      "Interface web para acompanhamento de tarefas",
+      "Integração proposta com WhatsApp e Gemini"
     ],
     link: "https://github.com/DPoveaa/ZapTaria#readme",
     repository: "https://github.com/DPoveaa/ZapTaria"
@@ -284,5 +278,20 @@ export const projects = [
     ],
     link: "https://github.com/DPoveaa",
     repository: "https://github.com/DPoveaa/DPoveaa"
+  },
+  {
+    id: 13,
+    title: "Bot-Jobando - Automação e painel web",
+    badge: "Projeto privado",
+    statusType: "repo",
+    description: "Automação em Python com tarefas agendadas e um painel Flask para configurar e acompanhar as rotinas.",
+    images: [],
+    technologies: ["Python", "Flask", "Selenium", "Docker", "OpenPyXL"],
+    categories: ["Bots & Automação", "Python"],
+    features: [
+      "Painel de configuração e acompanhamento das tarefas",
+      "Gerenciamento de usuários",
+      "Execução agendada e ambiente empacotado com Docker"
+    ]
   }
 ];

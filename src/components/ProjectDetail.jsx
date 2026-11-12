@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useTheme } from '../hooks/useTheme';
 
 const ProjectDetail = ({ project, onClose }) => {
@@ -6,14 +6,21 @@ const ProjectDetail = ({ project, onClose }) => {
   const [activeTab, setActiveTab] = useState('descricao');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Close modal on escape key
+  const dialog = useRef(null);
   useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.keyCode === 27) onClose();
+    const element = dialog.current;
+    element.showModal();
+    document.body.classList.add('project-dialog-open');
+    return () => {
+      element.close();
+      document.body.classList.remove('project-dialog-open');
     };
-    window.addEventListener('keydown', handleEsc);
-    return () => window.removeEventListener('keydown', handleEsc);
-  }, [onClose]);
+  }, []);
+
+  function closeProject() {
+    dialog.current.close();
+    onClose();
+  }
 
   if (!project) return null;
 
@@ -42,13 +49,9 @@ const ProjectDetail = ({ project, onClose }) => {
   const isLive = statusType === 'live' || (link && !link.includes('github.com'));
 
   return (
-    <div 
-      className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-4 md:p-8"
-      onClick={onClose}
-    >
-      {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-      
+    <dialog ref={dialog} className="project-dialog" aria-label={title}
+      onCancel={(event) => { event.preventDefault(); closeProject(); }}
+      onClick={(event) => { if (event.target === event.currentTarget) closeProject(); }}>
       {/* Modal Content */}
       <div 
         className={`relative w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl shadow-2xl ${
@@ -58,13 +61,13 @@ const ProjectDetail = ({ project, onClose }) => {
       >
         {/* Close Button */}
         <button
-          onClick={onClose}
+          onClick={closeProject}
           className={`absolute top-4 right-4 z-20 p-2.5 rounded-full transition-all duration-200 ${
             theme === 'dark' 
               ? 'hover:bg-gray-700 bg-gray-900/80 text-gray-300' 
               : 'hover:bg-gray-200 bg-white/90 text-gray-600 shadow-md'
           }`}
-          title="Fechar"
+          aria-label="Fechar projeto"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -297,7 +300,7 @@ const ProjectDetail = ({ project, onClose }) => {
           </div>
         </div>
       </div>
-    </div>
+    </dialog>
   );
 };
 

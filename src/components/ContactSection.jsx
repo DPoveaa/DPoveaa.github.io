@@ -94,15 +94,14 @@ const ContactSection = () => {
   ];
 
   return (
-    <section id="contato" className={`py-20 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-          <span className="bg-gradient-to-r from-blue-500 via-purple-500 via-blue-400 via-purple-600 to-blue-500 bg-clip-text text-transparent animate-gradient">
-            Entre em Contato
-          </span>
-        </h2>
+    <section id="contato" className="portfolio-contact">
+      <div className="site-wrap">
+        <div className="contact-heading">
+          <p className="site-kicker">Contato</p>
+          <h2>Vamos conversar?</h2>
+        </div>
 
-        <div className="max-w-4xl mx-auto">
+        <div className="contact-content">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className={`rounded-xl p-6 ${
               theme === 'dark'
