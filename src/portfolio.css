@@ -199,7 +199,7 @@
 .folio-tech { display: flex; flex-wrap: wrap; gap: .38rem; margin-top: 1rem; }
 .folio-tech .folio-tech-item { border: 1px solid #acb7c7; padding: .22rem .43rem; font-size: .71rem; font-weight: 750; }
 .folio-preview { margin: 0; }
-.folio-preview figcaption { margin-top: .5rem; color: #495d7a; font-size: .72rem; }
+
 .folio-mobile-preview, .folio-mobile-prev { display: none; }
 .folio-corner {
   position: absolute;
@@ -308,13 +308,13 @@
 .folio-media-frame {
   position: relative;
   isolation: isolate;
-  padding-bottom: 10px;
+  aspect-ratio: 16 / 10;
+  max-height: 340px;
 }
 .folio-media-frame img, .folio-media-frame video, .folio-media-frame iframe {
   display: block;
   width: 100%;
-  max-height: 340px;
-  aspect-ratio: 16 / 10;
+  height: 100%;
   object-fit: contain;
   border: 1px solid #a6aebd;
   background: #eef0f4;
@@ -324,31 +324,32 @@
   position: absolute;
   z-index: 2;
   right: .7rem;
-  bottom: -18px;
+  top: calc(100% - 5px);
   width: 2.9rem;
-  height: 35px;
+  height: calc(34px + var(--ribbon-pull));
   display: grid;
   place-content: start center;
-  padding-top: 4px;
+  padding-top: 7px;
   color: #fff8ea;
   background: #8b3546;
   clip-path: polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);
   font-size: .63rem;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
-  transform: translateY(var(--ribbon-pull));
+  transition: height .17s ease-out;
   touch-action: none;
   cursor: grab;
   user-select: none;
 }
 .folio-ribbon:hover, .folio-ribbon:focus-visible { background: #672333; }
 .folio-ribbon:active { cursor: grabbing; }
-.folio-preview:has(.folio-ribbon) { padding-bottom: 22px; }
-.folio-preview figcaption { padding-right: 3.8rem; }
-.folio-preview figcaption a { text-decoration: underline; }
+.folio-ribbon[data-pulling="true"] { transition: none; }
+.folio-media-caption { color: #495d7a; font-size: .72rem; }
+.folio-media-caption.has-ribbon { min-height: 57px; padding: .5rem 3.8rem 0 0; }
+.folio-media-caption a { text-decoration: underline; }
 @media (max-width: 720px) {
   .folio-cover-tech { max-width: 237px; }
   .folio-mobile-preview .folio-preview { margin-bottom: .8rem; }
-  .folio-media-frame img, .folio-media-frame video, .folio-media-frame iframe { max-height: 204px; }
+  .folio-media-frame { max-height: 190px; }
   .folio-chapter h3 { font-size: clamp(2.1rem, 10vw, 3.4rem); }
 }

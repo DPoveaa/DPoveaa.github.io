@@ -31,13 +31,13 @@ export function TechnologyIcons({ technologies = Object.keys(logos), cover = fal
   );
 }
 
-function Ribbon({ index, count, onAdvance }) {
+function Ribbon({ index, count, onAdvance, active }) {
   const start = useRef(null);
   const skipClick = useRef(false);
   const [pull, setPull] = useState(0);
 
   return (
-    <button type="button" className="folio-ribbon" style={{ '--ribbon-pull': `${pull}px` }}
+    <button type="button" className="folio-ribbon" disabled={!active} data-pulling={pull > 0} style={{ '--ribbon-pull': `${pull}px` }}
       aria-label={`Trocar mídia. ${index + 1} de ${count}`}
       title="Puxe a fita ou clique para trocar a mídia"
       onPointerDown={(event) => {
@@ -47,7 +47,7 @@ function Ribbon({ index, count, onAdvance }) {
         event.currentTarget.setPointerCapture(event.pointerId);
       }}
       onPointerMove={(event) => {
-        if (start.current !== null) setPull(Math.min(36, Math.max(0, event.clientY - start.current)));
+        if (start.current !== null) setPull(Math.min(28, Math.max(0, event.clientY - start.current)));
       }}
       onPointerUp={(event) => {
         if (start.current === null) return;
@@ -90,11 +90,12 @@ export function ProjectMedia({ project, index = 0, onAdvance, active }) {
           <img src={youtube || video ? poster : source} draggable="false"
             alt={source === project.pageImage ? project.pageImageAlt : `Imagem de ${name}`} loading="lazy" />
         )}
-        {active && media.length > 1 && <Ribbon index={index} count={media.length}
+        {media.length > 1 && <Ribbon index={index} count={media.length} active={active}
           onAdvance={() => onAdvance((index + 1) % media.length)} />}
       </div>
-      {caption && <figcaption>{caption}</figcaption>}
-      {active && youtube && <figcaption><a href={source} target="_blank" rel="noreferrer">Ver no YouTube</a></figcaption>}
+      <figcaption className={media.length > 1 ? 'folio-media-caption has-ribbon' : 'folio-media-caption'}>
+        {youtube ? <a href={source} target="_blank" rel="noreferrer">Ver no YouTube</a> : caption}
+      </figcaption>
       {active && <span className="sr-only" aria-live="polite">{youtube || video ? 'Vídeo' : 'Imagem'} {index + 1} de {media.length}</span>}
     </figure>
   );
