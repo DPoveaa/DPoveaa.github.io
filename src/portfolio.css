@@ -201,6 +201,23 @@
 .folio-preview { margin: 0; }
 
 .folio-mobile-preview, .folio-mobile-prev { display: none; }
+.folio-cover-edge {
+  position: absolute;
+  z-index: 32;
+  inset: 8px auto 48px -100%;
+  width: 22px;
+  cursor: pointer;
+  background: linear-gradient(90deg, #182b50 0 5px, transparent 5px);
+  border-radius: 4px 0 0 4px;
+}
+.folio-cover-edge:hover:enabled, .folio-cover-edge:focus-visible {
+  background: linear-gradient(90deg, #4d78ab 0 7px, #305b9912 7px);
+}
+.folio-cover-edge:disabled { pointer-events: none; }
+@media (max-width: 720px) {
+  .folio-cover-edge { left: 0; width: 16px; }
+}
+
 .folio-corner {
   position: absolute;
   bottom: 0;

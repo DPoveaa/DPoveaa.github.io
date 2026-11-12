@@ -135,6 +135,10 @@ export default function ProjectsSection() {
             onPointerCancel={() => { pointer.current = null; }}>
             <div className="folio-volume">
               <div className="folio-rear" aria-hidden="true" />
+              {page > 0 && (
+                <button type="button" className="folio-cover-edge" aria-label="Voltar à capa"
+                  title="Voltar à capa" disabled={!!turning} onClick={() => go(0)} />
+              )}
               {Array.from({ length: finalPage + 1 }, (_, sheet) => {
                 const turned = sheet < page;
                 const front = sheet === page;
