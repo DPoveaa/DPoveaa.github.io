@@ -5,12 +5,10 @@ import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
 import ContactSection from './components/ContactSection';
-import ProjectDetail from './components/ProjectDetail';
 import './portfolio.css';
 
 function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') === 'light' ? 'light' : 'dark');
-  const [currentProject, setCurrentProject] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -34,17 +32,16 @@ function App() {
         </header>
         <main>
           <HeroSection />
-          <ProjectsSection onProjectClick={setCurrentProject} modalOpen={!!currentProject} />
+          <ProjectsSection />
           <AboutSection />
           <ContactSection />
         </main>
         <footer className="portfolio-footer">
           <div className="site-wrap">
             <p>© {new Date().getFullYear()} Daniel Povea</p>
-            <a href="#inicio">Voltar ao início ↑</a>
+            <a href="#inicio">Voltar ao início</a>
           </div>
         </footer>
-        {currentProject && <ProjectDetail project={currentProject} onClose={() => setCurrentProject(null)} />}
       </div>
     </ThemeProvider>
   );

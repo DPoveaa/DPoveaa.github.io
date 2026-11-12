@@ -1,21 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { projects } from '../data/projects';
+import { ProjectMedia, TechnologyIcons } from './ProjectMedia';
 
 const order = [2, 1, 3, 6, 13, 5, 8, 4, 9, 10, 7, 11, 12];
 const chapters = order.map((id) => projects.find((project) => project.id === id));
 const finalPage = chapters.length + 1;
 const titleOf = (project) => project.title.split(' - ')[0];
-
-function PageImage({ project }) {
-  const source = project.pageImage || project.thumbnail;
-  if (!source) return null;
-  return (
-    <figure className="folio-preview">
-      <img src={source} alt={project.pageImageAlt || `Imagem de ${titleOf(project)}`} loading="lazy" />
-      {project.pageImageCaption && <figcaption>{project.pageImageCaption}</figcaption>}
-    </figure>
-  );
-}
 
 function PageCorner({ direction, onClick, closeCover = false }) {
   return (
@@ -44,15 +34,15 @@ function IndexPage({ onSelect }) {
   );
 }
 
-function Chapter({ project, onDetails }) {
+function Chapter({ project, media }) {
+  const live = project.statusType === 'live' && project.link && !project.link.startsWith('https://github.com/');
   return (
     <article className="folio-chapter">
-      <div className="folio-mobile-preview"><PageImage project={project} /></div>
-      <h3><button type="button" onClick={() => onDetails(project)}>{titleOf(project)} <span aria-hidden="true">↗</span></button></h3>
-      <p className="folio-summary">{project.description.split('\n\n')[0]}</p>
-      <ul className="folio-tech" aria-label="Tecnologias">
-        {project.technologies.slice(0, 6).map((tech) => <li key={tech}>{tech}</li>)}
-      </ul>
+      <div className="folio-mobile-preview">{media}</div>
+      <h3>{titleOf(project)}</h3>
+      {project.description.split('\n\n').map((paragraph) => <p className="folio-summary" key={paragraph}>{paragraph}</p>)}
+      <TechnologyIcons technologies={project.technologies} />
+      {live && <a className="folio-live-link" href={project.link} target="_blank" rel="noreferrer">Ver projeto em funcionamento</a>}
     </article>
   );
 }
@@ -64,12 +54,26 @@ function hideInactive(active) {
   };
 }
 
-export default function ProjectsSection({ onProjectClick, modalOpen }) {
+export default function ProjectsSection() {
   const [page, setPage] = useState(0);
   const [turning, setTurning] = useState(null);
+  const [mediaByProject, setMediaByProject] = useState({});
+  const [mobile, setMobile] = useState(() => window.matchMedia('(max-width: 720px)').matches);
   const pointer = useRef(null);
   const stage = useRef(null);
   const needsFocus = useRef(false);
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 720px)');
+    const update = () => setMobile(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+
+  function renderMedia(project, active) {
+    return <ProjectMedia project={project} index={mediaByProject[project.id] ?? 0}
+      active={active} onAdvance={(index) => setMediaByProject((current) => ({ ...current, [project.id]: index }))} />;
+  }
 
   useEffect(() => {
     if (!turning) return;
@@ -95,7 +99,7 @@ export default function ProjectsSection({ onProjectClick, modalOpen }) {
   }
 
   function onKeyDown(event) {
-    if (modalOpen || event.altKey || event.ctrlKey || event.metaKey) return;
+    if (event.target.closest('[data-folio-media]') || event.altKey || event.ctrlKey || event.metaKey) return;
     const target = { ArrowRight: page + 1, ArrowLeft: page - 1, Home: 1 }[event.key];
     if (target === undefined) return;
     event.preventDefault();
@@ -103,7 +107,7 @@ export default function ProjectsSection({ onProjectClick, modalOpen }) {
   }
 
   function onPointerDown(event) {
-    if (!event.isPrimary || event.button !== 0 || event.target.closest('button, a')) return;
+    if (!event.isPrimary || event.button !== 0 || event.target.closest('button, a, video, iframe')) return;
     pointer.current = { id: event.pointerId, x: event.clientX, y: event.clientY };
     event.currentTarget.setPointerCapture(event.pointerId);
   }
@@ -151,13 +155,14 @@ export default function ProjectsSection({ onProjectClick, modalOpen }) {
                           <span className="folio-cover-frame">
                             <span className="folio-label">Daniel Povea</span>
                             <span className="folio-cover-title">Portfólio<br />de projetos</span>
+                            <TechnologyIcons cover />
                           </span>
                         </button>
                       ) : (
                         <>
                           <div className="folio-page-content">
                             {sheet === 1 ? <IndexPage onSelect={go} />
-                              : <Chapter project={project} onDetails={onProjectClick} />}
+                              : <Chapter project={project} media={mobile && renderMedia(project, front && !turning)} />}
                           </div>
                           {sheet < finalPage && <PageCorner direction="next" onClick={() => go(page + 1)} />}
                           <div className="folio-mobile-prev">
@@ -168,7 +173,7 @@ export default function ProjectsSection({ onProjectClick, modalOpen }) {
                     </div>
                     {sheet < finalPage && (
                       <div className={`folio-face folio-back ${cover ? 'folio-inside-cover' : ''}`} {...hideInactive(back)}>
-                        {nextProject && <PageImage project={nextProject} />}
+                        {!mobile && nextProject && renderMedia(nextProject, back && !turning)}
                         <PageCorner direction="prev" closeCover={cover} onClick={() => go(page - 1)} />
                       </div>
                     )}

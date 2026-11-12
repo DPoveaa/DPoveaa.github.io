@@ -6,7 +6,7 @@ export const projects = [
     title: "BrasilFlix - Streaming & Automação no Telegram",
     badge: "Plataforma & Bot Ativos",
     statusType: "live",
-    description: "Plataforma web de streaming e bot inteligente para Telegram com esteira paralela e contínua de processamento de mídia, downloads em alta velocidade e transcodificação automática com FFmpeg (1080p).\n\nPermite compartilhamento automatizado de filmes, séries e animes através do protocolo MTProto Premium (suportando uploads de arquivos de até 4GB). Conta com catálogo interativo em tempo real via web, persistência em PostgreSQL, integração de metadados via TMDB, monetização e assinaturas automatizadas com Mercado Pago (PIX com baixa instantânea) e integração com Stremio.",
+    description: "Plataforma de mídia em Node.js com catálogo, filas e agendamento. Usa FFmpeg para processar vídeos, PostgreSQL para persistência e Telegram para notificações e distribuição.",
     thumbnail: "/assets/images/brasilflix-logo-horizontal.jpg",
     images: [
       "/assets/images/brasilflix-logo-horizontal.jpg",
@@ -35,7 +35,7 @@ export const projects = [
     title: "Kapsu - E-commerce de Suplementos & Cuidados",
     badge: "Em Produção",
     statusType: "live",
-    description: "Plataforma de e-commerce com catálogo, checkout, gestão de pedidos e portal de fornecedores. Fui o principal responsável pelo desenvolvimento da interface e da API.\n\nA Kaia usa o Gemini para consultar pedidos e executar ações no carrinho. O projeto inclui testes de contrato e de fluxos de conversa.",
+    description: "Fui o principal desenvolvedor da Kapsu, um e-commerce com catálogo, checkout e portal de fornecedores. A assistente Kaia usa o Gemini para consultar pedidos e operar o carrinho.",
     thumbnail: "/assets/images/kapsu-logo.png",
     images: [
       "/assets/images/kapsu-logo.png"
@@ -59,7 +59,7 @@ export const projects = [
     title: "Global Pharma Human - Marketplace Corporativo",
     badge: "Em Produção",
     statusType: "live",
-    description: "Marketplace corporativo full-stack da Global Pharma Human, integrando frontend reativo em Next.js com backend robusto em Node.js, Express e Prisma ORM conectado ao banco relacional PostgreSQL.\n\nO sistema conta com painel administrativo completo, autenticação segura com JWT/NextAuth, vitrine B2B e B2C de produtos farmacêuticos e hospitalares, integração com APIs sociais da Meta/Instagram e configuração para deploy em Ubuntu Server gerenciado com PM2.",
+    description: "Desenvolvi e mantive catálogo e checkout do marketplace com Next.js, Node.js e PostgreSQL. Também cuidei da hospedagem em Ubuntu e da migração de sites.",
     thumbnail: "/assets/images/gph-logo.png",
     images: [
       "/assets/images/gph-logo.png"
@@ -85,7 +85,7 @@ export const projects = [
     title: "Ultrafarma Capelinha - Portal Oficial & Tele-Entrega",
     badge: "Em Produção",
     statusType: "live",
-    description: "Landing page institucional e comercial da unidade Ultrafarma Getúlio Vargas (Capelinha - Osasco/SP).\n\nDesenvolvida com foco em máxima velocidade de carregamento, responsividade impecável em dispositivos móveis e otimização para motores de busca (SEO local estruturado com sitemap.xml e OpenGraph). Conecta clientes diretamente aos canais de tele-entrega e atendimento rápido via WhatsApp.",
+    description: "Site da farmácia em Osasco com informações da unidade e acesso ao atendimento e à tele-entrega pelo WhatsApp.",
     thumbnail: "/assets/images/ultrafarma-fachada.jpeg",
     images: [
       "/assets/images/ultrafarma-fachada.jpeg",
@@ -111,7 +111,7 @@ export const projects = [
     title: "BotForge - Automação de Vendas & Acesso VIP no Telegram",
     badge: "Bot Ativo",
     statusType: "live",
-    description: "Bot completo para Telegram desenvolvido em JavaScript/Node.js voltado para criadores de conteúdo e vendedores online automatizarem pagamentos e gestão de comunidades fechadas.\n\nOferece checkout automático com Mercado Pago (PIX) e Stripe (cartão), criação de planos de acesso (diário, mensal, anual ou vitalício), convite automático e remoção pontual após expiração da assinatura, painel administrativo e sistema de gamificação por volume de vendas.",
+    description: "Bot para gerenciar assinaturas e comunidades no Telegram. Integra pagamentos por PIX e cartão com Mercado Pago e Stripe e controla o acesso conforme o plano.",
     thumbnail: "/assets/images/Botforge-logo.png",
     images: [
       "/assets/images/Botforge-logo.png",
@@ -138,7 +138,7 @@ export const projects = [
     title: "Central de Descontos - Bot de Ofertas & Afiliados",
     badge: "Automação",
     statusType: "live",
-    description: "Automação que coleta e normaliza ofertas de e-commerce e publica os resultados no Telegram e no WhatsApp. Usa Python e Selenium na coleta e Node.js na distribuição.",
+    description: "Automação que coleta ofertas com Python e Selenium e publica os resultados no Telegram e no WhatsApp com Node.js.",
     thumbnail: "/assets/images/Cdd.png",
     images: [
       "/assets/images/Cdd.png"
@@ -162,7 +162,7 @@ export const projects = [
     title: "Aurora: The Fallen King",
     badge: "Jogo Disponível",
     statusType: "live",
-    description: "Desenvolvido em 7 dias durante a Ctrl Alt Jam #2.\n\nNeste jogo acompanhamos Aurora, uma garota cega que embarca em uma jornada para restaurar a visão de todos que foram afetados por um misterioso evento — supostamente causado pela queda de um anjo na Terra.\n\nAurora faz um acordo com uma caveira enigmática que lhe concede poderes sobrenaturais, enfrentando os perigos de um castelo sombrio com a missão de derrotar o Rei e obter o artefato 'Olho do Paraíso'. O jogo aborda temas de adaptação e dualidade moral com combate fluído.",
+    description: "Jogo de ação e plataforma 2.5D feito em equipe para a Ctrl Alt Jam #2. Aurora atravessa um castelo em busca de uma forma de devolver a visão às pessoas afetadas por um evento misterioso.",
     thumbnail: "https://img.itch.zone/aW1nLzEyMTY1NDU2LnBuZw==/original/NTQd4G.png",
     images: [
       "https://img.itch.zone/aW1nLzEyMTY1NDU2LnBuZw==/original/NTQd4G.png",
@@ -191,7 +191,7 @@ export const projects = [
     title: "Organizador de Planilhas Excel - GPH",
     badge: "Ferramenta Client-Side",
     statusType: "repo",
-    description: "Ferramenta utilitária 100% client-side (sem dependência de servidor) concebida para organizar, higienizar e padronizar planilhas desordenadas de pedidos e rotas de delivery em formato .xls e .xlsx.\n\nO processamento acontece inteiramente na memória do navegador do usuário através da biblioteca SheetJS, garantindo sigilo absoluto dos dados operacionais e conversão em tempo recorde sem risco de vazamento de informações sensíveis.",
+    description: "Ferramenta para padronizar planilhas de pedidos e rotas de entrega. A leitura e o processamento de arquivos XLS e XLSX acontecem no navegador com SheetJS.",
     thumbnail: "/assets/images/excel-organizer-banner.jpg",
     images: [
       "/assets/images/excel-organizer-banner.jpg"
@@ -216,7 +216,7 @@ export const projects = [
     title: "ZapTaria - Gerenciador de Tarefas com IA no WhatsApp",
     badge: "Protótipo em pull request",
     statusType: "repo",
-    description: "Protótipo de um assistente para organizar tarefas por mensagens no WhatsApp. A proposta de implementação está documentada em um pull request no GitHub.",
+    description: "Protótipo de assistente para organizar tarefas por mensagens no WhatsApp. A proposta de implementação está documentada em um pull request no GitHub.",
     thumbnail: "/assets/images/zaptaria-banner.jpg",
     images: [
       "/assets/images/zaptaria-banner.jpg"
@@ -239,7 +239,7 @@ export const projects = [
     title: "My Story - Jogo 3D Sandbox & Construção",
     badge: "Godot 3D Game",
     statusType: "repo",
-    description: "Jogo 3D de construção em blocos, sobrevivência e gerenciamento desenvolvido na engine Godot, inspirado principalmente nas mecânicas táticas de Castle Story e no sandbox criativo de Minecraft.\n\nO projeto foca em possibilitar estruturas fisicamente consistentes construídas por pequenas unidades de trabalhadores (operários) orientados por comandos do jogador, com geração de ilhas flutuantes e sistemas dinâmicos em GDScript.",
+    description: "Jogo de construção em blocos feito no Godot. O protótipo explora estruturas em 3D e trabalhadores controlados por comandos do jogador.",
     thumbnail: "/assets/images/mystory-banner.jpg",
     images: [
       "/assets/images/mystory-banner.jpg",
@@ -264,7 +264,7 @@ export const projects = [
     title: "Portfólio Pessoal v1 - Versão Conceitual",
     badge: "Deploy Ativo",
     statusType: "live",
-    description: "Primeira versão do meu portfólio pessoal criada como experimento visual de animações e navegação lúdica.\n\nO projeto implementa uma logo interativa com efeito de rotação 3D que revela a biografia pessoal, além de um livro 3D interativo com física de virar páginas para navegar entre os projetos, explorando recursos criativos avançados de CSS3 e manipulação de DOM em JavaScript.",
+    description: "Primeira versão do portfólio. A abertura revela a biografia ao girar o logotipo, e os projetos aparecem em um livro com páginas animadas em CSS.",
     thumbnail: "/assets/images/portfolio-v1-0.png",
     images: [
       "/assets/images/portfolio-v1-0.png",
@@ -292,7 +292,7 @@ export const projects = [
     title: "DPoveaa - Perfil Central & Documentação GitHub",
     badge: "Perfil Oficial",
     statusType: "live",
-    description: "Repositório central do perfil do GitHub de Daniel Povea (@DPoveaa), estruturado com automações via GitHub Actions para atualização contínua de métricas de contribuição, resumo dinâmico de linguagens mais utilizadas, badges de tecnologias e links diretos para contato.",
+    description: "Perfil do GitHub com apresentação, tecnologias e automações em GitHub Actions para atualizar as estatísticas de contribuição.",
     thumbnail: "/assets/images/github-mark.png",
     images: [
       "/assets/images/github-mark.png"

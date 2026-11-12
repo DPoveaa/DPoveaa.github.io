@@ -195,14 +195,10 @@
 .folio-index button span { color: #42618c; margin-right: .52rem; font-variant-numeric: tabular-nums; }
 .folio-index button:hover { background: #e5ebf3; }
 .folio-chapter h3 { font-size: clamp(2.45rem, 4.1vw, 4.3rem); margin-bottom: .45em; }
-.folio-chapter h3 button { text-align: left; line-height: inherit; }
-.folio-chapter h3 button span { font: 700 .93rem Manrope, sans-serif; color: #315a98; vertical-align: super; }
-.folio-chapter h3 button:hover { color: #315a98; }
 .folio-summary { font-size: .92rem; line-height: 1.65; }
 .folio-tech { display: flex; flex-wrap: wrap; gap: .38rem; margin-top: 1rem; }
-.folio-tech li { border: 1px solid #acb7c7; padding: .22rem .43rem; font-size: .71rem; font-weight: 750; }
+.folio-tech .folio-tech-item { border: 1px solid #acb7c7; padding: .22rem .43rem; font-size: .71rem; font-weight: 750; }
 .folio-preview { margin: 0; }
-.folio-preview img { width: 100%; max-height: 390px; object-fit: contain; border: 1px solid #a6aebd; background: #eef0f4; }
 .folio-preview figcaption { margin-top: .5rem; color: #495d7a; font-size: .72rem; }
 .folio-mobile-preview, .folio-mobile-prev { display: none; }
 .folio-corner {
@@ -232,7 +228,6 @@
   .folio-back { visibility: hidden; }
   .folio-mobile-preview, .folio-mobile-prev { display: block; }
   .folio-mobile-preview .folio-preview { margin-bottom: .9rem; }
-  .folio-mobile-preview img { max-height: 215px; }
   .folio-chapter h3 { margin-bottom: .32em; }
   .folio-summary { font-size: .84rem; line-height: 1.5; }
   .folio-tech { margin-top: .65rem; }
@@ -281,16 +276,79 @@
 .contact-heading { margin-bottom: 2rem; }
 .contact-heading h2 { margin-top: .55rem; }
 .contact-content > div > div { border: 1px solid var(--line); border-radius: 0; background: var(--canvas); box-shadow: none; }
-.project-dialog-open { overflow: hidden; }
-.project-dialog {
-  position: fixed;
-  inset: 0;
-  width: min(calc(100% - 24px), 1024px);
-  max-width: none;
-  max-height: 92dvh;
-  padding: 0;
-  background: transparent;
-  margin: auto;
+
+.folio-cover-tech {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: .45rem;
+  width: min(100%, 272px);
 }
-.project-dialog[open] { animation: portfolio-enter .25s both; }
-.project-dialog::backdrop { background: #0d1626cc; backdrop-filter: blur(5px); }
+.folio-tech-item { display: inline-flex; align-items: center; gap: .38rem; }
+.folio-cover-tech .folio-tech-item {
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 1px solid #a6c6f24d;
+  border-radius: 4px;
+  background: #eff5ff;
+}
+.folio-cover-tech img { width: 70%; height: 70%; object-fit: contain; }
+.folio-tech-item img { width: 1rem; height: 1rem; object-fit: contain; }
+.folio-summary + .folio-summary { margin-top: .65rem; }
+.folio-live-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .48rem .75rem;
+  border: 1px solid #315a98;
+  border-radius: 3px;
+  color: #234678;
+  font-size: .76rem;
+  font-weight: 800;
+}
+.folio-live-link:hover { background: #234678; color: #fff; }
+.folio-media-frame {
+  position: relative;
+  isolation: isolate;
+  padding-bottom: 10px;
+}
+.folio-media-frame img, .folio-media-frame video, .folio-media-frame iframe {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border: 1px solid #a6aebd;
+  background: #eef0f4;
+}
+.folio-media-frame video, .folio-media-frame iframe { background: #101827; }
+.folio-ribbon {
+  position: absolute;
+  z-index: 2;
+  right: .7rem;
+  bottom: -18px;
+  width: 2.9rem;
+  height: 35px;
+  display: grid;
+  place-content: start center;
+  padding-top: 4px;
+  color: #fff8ea;
+  background: #8b3546;
+  clip-path: polygon(0 0,100% 0,100% 100%,50% 78%,0 100%);
+  font-size: .63rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  transform: translateY(var(--ribbon-pull));
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+.folio-ribbon:hover, .folio-ribbon:focus-visible { background: #672333; }
+.folio-ribbon:active { cursor: grabbing; }
+.folio-preview:has(.folio-ribbon) { padding-bottom: 22px; }
+.folio-preview figcaption { padding-right: 3.8rem; }
+.folio-preview figcaption a { text-decoration: underline; }
+@media (max-width: 720px) {
+  .folio-cover-tech { max-width: 237px; }
+  .folio-mobile-preview .folio-preview { margin-bottom: .8rem; }
+  .folio-media-frame img, .folio-media-frame video, .folio-media-frame iframe { max-height: 204px; }
+  .folio-chapter h3 { font-size: clamp(2.1rem, 10vw, 3.4rem); }
+}
