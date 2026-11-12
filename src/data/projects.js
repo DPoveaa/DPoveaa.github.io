@@ -1,6 +1,8 @@
 export const projects = [
   {
     id: 1,
+    pageImage: "/assets/project-screens/brasilflix.jpg",
+    pageImageAlt: "Tela pública do BrasilFlix",
     title: "BrasilFlix - Streaming & Automação no Telegram",
     badge: "Plataforma & Bot Ativos",
     statusType: "live",
@@ -28,6 +30,8 @@ export const projects = [
   },
   {
     id: 2,
+    pageImage: "/assets/project-screens/kapsu.jpg",
+    pageImageAlt: "Loja online da Kapsu",
     title: "Kapsu - E-commerce de Suplementos & Cuidados",
     badge: "Em Produção",
     statusType: "live",
@@ -50,6 +54,8 @@ export const projects = [
   },
   {
     id: 3,
+    pageImage: "/assets/project-screens/global-pharma.jpg",
+    pageImageAlt: "Marketplace da Global Pharma Human",
     title: "Global Pharma Human - Marketplace Corporativo",
     badge: "Em Produção",
     statusType: "live",
@@ -74,6 +80,8 @@ export const projects = [
   },
   {
     id: 4,
+    pageImage: "/assets/project-screens/ultrafarma.jpg",
+    pageImageAlt: "Site da Ultrafarma Capelinha",
     title: "Ultrafarma Capelinha - Portal Oficial & Tele-Entrega",
     badge: "Em Produção",
     statusType: "live",
@@ -97,6 +105,9 @@ export const projects = [
   },
   {
     id: 5,
+    pageImage: "/assets/project-screens/botforge.jpg",
+    pageImageAlt: "Tela do bot em vídeo de demonstração",
+    pageImageCaption: "Frame da demonstração",
     title: "BotForge - Automação de Vendas & Acesso VIP no Telegram",
     badge: "Bot Ativo",
     statusType: "live",
@@ -121,6 +132,9 @@ export const projects = [
   },
   {
     id: 6,
+    pageImage: "/assets/project-screens/central.jpg",
+    pageImageAlt: "Página pública da Central de Descontos no Telegram",
+    pageImageCaption: "Prévia pública do canal",
     title: "Central de Descontos - Bot de Ofertas & Afiliados",
     badge: "Automação",
     statusType: "live",
@@ -142,6 +156,9 @@ export const projects = [
   },
   {
     id: 7,
+    pageImage: "/assets/project-screens/aurora.jpg",
+    pageImageAlt: "Página de Aurora no itch.io",
+    pageImageCaption: "Página do jogo no itch.io",
     title: "Aurora: The Fallen King",
     badge: "Jogo Disponível",
     statusType: "live",
@@ -169,6 +186,8 @@ export const projects = [
   },
   {
     id: 8,
+    pageImage: "/assets/project-screens/excel.jpg",
+    pageImageAlt: "Tela do Organizador de Planilhas Excel",
     title: "Organizador de Planilhas Excel - GPH",
     badge: "Ferramenta Client-Side",
     statusType: "repo",
@@ -191,6 +210,9 @@ export const projects = [
   },
   {
     id: 9,
+    pageImage: "/assets/project-screens/zaptaria.jpg",
+    pageImageAlt: "Proposta do ZapTaria no GitHub",
+    pageImageCaption: "Pull request do protótipo",
     title: "ZapTaria - Gerenciador de Tarefas com IA no WhatsApp",
     badge: "Protótipo em pull request",
     statusType: "repo",
@@ -211,6 +233,9 @@ export const projects = [
   },
   {
     id: 10,
+    pageImage: "/assets/project-screens/my-story.jpg",
+    pageImageAlt: "Repositório público de My Story",
+    pageImageCaption: "Repositório no GitHub",
     title: "My Story - Jogo 3D Sandbox & Construção",
     badge: "Godot 3D Game",
     statusType: "repo",
@@ -234,6 +259,8 @@ export const projects = [
   },
   {
     id: 11,
+    pageImage: "/assets/project-screens/portfolio-v1.jpg",
+    pageImageAlt: "Livro interativo do Portfólio V1",
     title: "Portfólio Pessoal v1 - Versão Conceitual",
     badge: "Deploy Ativo",
     statusType: "live",
@@ -260,6 +287,8 @@ export const projects = [
   },
   {
     id: 12,
+    pageImage: "/assets/project-screens/dpoveaa.jpg",
+    pageImageAlt: "Perfil público de DPoveaa no GitHub",
     title: "DPoveaa - Perfil Central & Documentação GitHub",
     badge: "Perfil Oficial",
     statusType: "live",
